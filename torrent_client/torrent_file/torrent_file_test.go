@@ -7,14 +7,15 @@ import (
 )
 
 func TestDecodeTorrentFile(t *testing.T) {
-	torrentFile, err := DecodeTorrentFile("./testdata/sample.torrent")
-	assert.NoError(t, err, "Expected no error when decoding torrent file")
+	torrentFile, err := DecodeTorrentFile("./testdata/archlinux-2019.12.01-x86_64.iso.torrent")
+	assert.Nil(t, err, "Expected no error when decoding torrent file")
 
-	assert.Equal(t, "http://tracker.example.com:8080/", torrentFile.Announce, "Expected announce URL to be http://tracker.example.com:8080/")
+	assert.NotNil(t, torrentFile, "Expected torrent file to be decoded")
+	assert.Equal(t, "http://tracker.archlinux.org:6969/announce", torrentFile.Announce, "Expected announce URL to be http://tracker.archlinux.org:6969/announce")
 
-	assert.Equal(t, "testfile", torrentFile.Info.Name, "Expected correct file name")
-	assert.Equal(t, 12345, torrentFile.Info.Length, "Expected correct file length")
-	assert.Equal(t, 16384, torrentFile.Info.PieceLength, "Expected correct piece length")
+	assert.Equal(t, "archlinux-2019.12.01-x86_64.iso", torrentFile.Info.Name, "Expected correct file name")
+	assert.Equal(t, 670040064, torrentFile.Info.Length, "Expected correct file length")
+	assert.Equal(t, 524288, torrentFile.Info.PieceLength, "Expected correct piece length")
 
-	assert.Equal(t, 20, len(torrentFile.Info.Pieces), "Expected correct length for pieces string")
+	assert.Equal(t, 25560, len(torrentFile.Info.Pieces), "Expected correct length for pieces string")
 }

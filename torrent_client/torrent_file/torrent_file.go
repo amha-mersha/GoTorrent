@@ -45,7 +45,7 @@ func DecodeTorrentFile(path string) (*benFile, error) {
 	defer file.Close()
 
 	var torrentFile benFile
-	err = bencode.Unmarshal(file, torrentFile)
+	err = bencode.Unmarshal(file, &torrentFile)
 
 	if err != nil {
 		return nil, err
