@@ -1,13 +1,18 @@
 package db
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+)
 
-var PostgreSQLDB *gorm.DB
+type PostgreSQLDB struct {
+	DB *gorm.DB
+}
 
-func InitPostgreSQL(connection_url stirng) error {
+func InitPostgreSQL(connection_url string) (*gorm.DB, error) {
 	PostgreSQLDB, err := gorm.Open(postgres.Open(connection_url), &gorm.Config{})
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return PostgreSQLDB, nil
 }

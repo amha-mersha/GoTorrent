@@ -1,30 +1,13 @@
 package db
 
 import (
-	"time"
+	"github.com/amha-mersha/GoTorrent/domains"
 )
 
-type Peer struct {
-	ID         string `gorm:"primaryKey"`
-	TorrentID  string `gorm:"index"`
-	IP         string
-	Port       int
-	LastActive time.Time
+func (sqlite *SQLiteDB) MigrateModels() error {
+	return sqlite.DB.AutoMigrate(&domains.Peer{})
 }
 
-type Torrent struct {
-	ID        string `gorm:"primaryKey"`
-	Name      string
-	Announce  string
-	CreatedAt time.Time
-}
-
-func MigrateModels() error {
-	if err := SQLiteDB.AutoMigrate(&Peer{}); err != nil {
-		return err
-	}
-	if err := PostgreSQLDB.AutoMigrate(&Torrent{}); err != nil {
-		return err
-	}
-	return nil
+func (postgres *PostgreSQLDB) MigrateModels() error {
+	return postgres.DB.AutoMigrate(&domains.Torrent{})
 }

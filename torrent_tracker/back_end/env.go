@@ -14,6 +14,7 @@ var (
 	DB_USER     string
 	DB_PASSWORD string
 	DB_NAME     string
+	APP_PORT    string
 )
 
 func LoadEnv(path string) error {
@@ -22,11 +23,12 @@ func LoadEnv(path string) error {
 	}
 	DB_DRIVER = os.Getenv("DB_DRIVER")
 	DB_HOST = os.Getenv("DB_HOST")
-	port, err := strconv.Atoi(os.Getenv("DB_PORT"))
+	postgresPort, err := strconv.Atoi(os.Getenv("DB_PORT"))
 	if err != nil {
 		return err
 	}
-	DB_PORT = uint16(port)
+	APP_PORT = os.Getenv("APP_PORT")
+	DB_PORT = uint16(postgresPort)
 	DB_USER = os.Getenv("DB_USER")
 	DB_PASSWORD = os.Getenv("DB_PASSWORD")
 	DB_NAME = os.Getenv("DB_NAME")
