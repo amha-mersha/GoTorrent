@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  tracker-backend:
+    build:
+      context: ./back_end
+      dockerfile: Dockerfile
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    env_file:
+      - ./back_end/.env
+    volumes:
+      - ./back_end:/back_end
+    networks:
+      - torrent-network
+
+  torrent-client:
+    build:
+      context: ../torrent_client
+      dockerfile: Dockerfile
+    ports:
+      - "qq9090:9090"
+    env_file:
+      - ../torrent_client/.env
+    volumes:
+      - ../torrent_client:/torrent_client
+    networks:
+      - torrent-network
+
+networks:
+  torrent-network:
+    driver: bridge
