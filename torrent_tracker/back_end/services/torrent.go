@@ -20,7 +20,7 @@ func NewService(torrentDB *db.PostgreSQLDB, peerDB *db.RedisInst) *Service {
 }
 
 func (s *Service) Announce(info_hash, peer_id, ip string, port, uploaded, downloaded, left int) ([]domains.Peer, error) {
-	torrent, err := s.torrentDB.GetTorrent(info_hash)
+	_, err := s.torrentDB.GetTorrent(info_hash)
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +38,10 @@ func (s *Service) Announce(info_hash, peer_id, ip string, port, uploaded, downlo
 		return nil, err
 	}
 
-	peers = append(peers, peer)
+	err = s.peerDB.AddPeer(info_hash, peer)
+	if err != nil {
+		return nil, err
+	}
 
 	return peers, nil
 }

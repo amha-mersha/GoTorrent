@@ -27,6 +27,17 @@ func InitRedis(address, password string, DB uint8) (*RedisInst, error) {
 }
 
 func (redis *RedisInst) AddPeer(infoHash string, peer domains.Peer) error {
+	existingPeers, err := redis.GetPeers(infoHash)
+	if err != nil {
+		return fmt.Errorf("failed to retrieve existing peers: %v", err)
+	}
+
+	for _, existingPeer := range existingPeers {
+		if existingPeer.PeerID == peer.PeerID {
+			return nil
+		}
+	}
+
 	peerJSON, err := json.Marshal(peer)
 	if err != nil {
 		return fmt.Errorf("failed to marshal peer: %v", err)
@@ -34,8 +45,9 @@ func (redis *RedisInst) AddPeer(infoHash string, peer domains.Peer) error {
 
 	err = redis.client.LPush(context.Background(), infoHash, peerJSON).Err()
 	if err != nil {
-		return fmt.Errorf("failed to add peer to redis: %v", err)
+		return fmt.Errorf("failed to add peer to Redis: %v", err)
 	}
+
 	return nil
 }
 
