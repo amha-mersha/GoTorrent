@@ -8,13 +8,17 @@ import (
 )
 
 var (
-	DB_DRIVER   string
-	DB_HOST     string
-	DB_PORT     uint16
-	DB_USER     string
-	DB_PASSWORD string
-	DB_NAME     string
-	APP_PORT    string
+	DB_DRIVER      string
+	DB_HOST        string
+	DB_PORT        uint16
+	DB_USER        string
+	DB_PASSWORD    string
+	DB_NAME        string
+	APP_PORT       string
+	REIDS_HOST     string
+	REDIS_PORT     string
+	REDIS_DB       uint8
+	REDIS_PASSWORD string
 )
 
 func LoadEnv(path string) error {
@@ -32,5 +36,13 @@ func LoadEnv(path string) error {
 	DB_USER = os.Getenv("DB_USER")
 	DB_PASSWORD = os.Getenv("DB_PASSWORD")
 	DB_NAME = os.Getenv("DB_NAME")
+	REIDS_HOST = os.Getenv("REDIS_HOST")
+	REDIS_PORT = os.Getenv("REDIS_PORT")
+	redisDb, err := strconv.Atoi(os.Getenv("REDIS_DB"))
+	if err != nil {
+		return err
+	}
+	REDIS_DB = uint8(redisDb)
+	REDIS_PASSWORD = os.Getenv("REDIS_PASSWORD")
 	return nil
 }

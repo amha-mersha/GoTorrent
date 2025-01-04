@@ -11,8 +11,8 @@ type Peer struct {
 }
 
 type Torrent struct {
-	ID        string
-	Name      string
-	Announce  string
-	CreatedAt time.Time
+	ID        string    `gorm:"primaryKey;size:36;not null"`
+	Name      string    `gorm:"size:255;not null"`
+	Announce  string    `gorm:"size:255;not null"`
+	CreatedAt time.Time `gorm:"autoCreateTime"`
 }
