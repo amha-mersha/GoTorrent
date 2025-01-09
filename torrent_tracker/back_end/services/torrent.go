@@ -42,6 +42,9 @@ func (s *Service) Announce(info_hash, peer_id, ip string, port, uploaded, downlo
 	if err != nil {
 		return nil, err
 	}
-
 	return peers, nil
+}
+
+func (s *Service) UploadTorrent() {
+
 }

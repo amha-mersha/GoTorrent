@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/amha-mersha/GoTorrent/services"
 	"github.com/gin-gonic/gin"
@@ -57,5 +58,18 @@ func (h *Handler) HandleGetTorrent(c *gin.Context) {
 }
 
 func (h *Handler) HandleTorrentPost(c *gin.Context) {
+}
+
+func (h *Handler) HandleUploadTorrent(c *gin.Context) {
+	file, err := c.FormFile("torrent")
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	if !strings.HasSuffix(file.Filename, ".torrent") {
+		c.JSON(400, gin.H{"error": "invalid file type"})
+		return
+	}
 
 }

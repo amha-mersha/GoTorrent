@@ -11,5 +11,6 @@ func SetupRouter(handler *handlers.Handler) *gin.Engine {
 	r.GET("/torrents", handler.HandleGetTorrentList)
 	r.POST("/torrents", handler.HandleTorrentPost)
 	r.GET("/torrents/:id", handler.HandleGetTorrent)
+	r.POST("/upload", handler.HandleUploadTorrent)
 	return r
 }
